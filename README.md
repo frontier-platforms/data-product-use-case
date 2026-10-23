@@ -54,6 +54,16 @@ website     dashboard (DuckDB-WASM in the browser) and AI agent (writes SQL agai
 
 `FULL_REFRESH=1` reloads 311 from scratch. GitHub Actions runs the same DAG daily (`.github/workflows/pipeline.yml`), commits refreshed gold data (which redeploys the website), and publishes the dbt docs to GitHub Pages.
 
+## Website
+
+`web/` is a Next.js app with four sections: the presentation (`/presentation`, with speaker notes and a synced presenter window), the dashboard, the AI agent, and the how-it's-built page. The dashboard and agent load the published gold Parquet files into DuckDB-WASM in the browser.
+
+```bash
+cd web && npm install && npm run dev   # http://localhost:3000
+```
+
+The agent needs `ANTHROPIC_API_KEY` (in `web/.env.local` locally, or a Vercel environment variable). Without it, everything except the agent works. On Vercel, set the project's root directory to `web`.
+
 ## Explore locally
 
 | What | Command | Opens |
