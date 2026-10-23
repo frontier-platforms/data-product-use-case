@@ -1,10 +1,10 @@
 with hours as (
     select
         month,
-        sum(service_hours) as service_hours,
-        sum(service_hours) filter (where mode = 'Bus') as bus_service_hours,
-        sum(service_hours) filter (where mode = 'CTrain') as ctrain_service_hours,
-        sum(service_hours) filter (where mode = 'Community shuttle') as shuttle_service_hours
+        cast(sum(service_hours) as bigint) as service_hours,
+        cast(sum(service_hours) filter (where mode = 'Bus') as bigint) as bus_service_hours,
+        cast(sum(service_hours) filter (where mode = 'CTrain') as bigint) as ctrain_service_hours,
+        cast(sum(service_hours) filter (where mode = 'Community shuttle') as bigint) as shuttle_service_hours
     from {{ ref('fct_service_hours_monthly') }}
     group by month
 ),
