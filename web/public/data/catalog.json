@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-23T21:13:20+00:00",
+  "generated_at": "2026-10-23T21:44:35+00:00",
   "last_loaded": {
-    "ridership_monthly": "2026-10-23T21:12:07Z",
-    "service_hours_monthly": "2026-10-23T21:12:08Z",
-    "service_requests_311": "2026-10-23T21:12:09Z"
+    "ridership_monthly": "2026-10-23T21:40:16Z",
+    "service_hours_monthly": "2026-10-23T21:40:16Z",
+    "service_requests_311": "2026-10-23T21:43:19Z"
   },
   "tables": [
     {
@@ -58,8 +58,8 @@
           "description": ""
         },
         {
-          "name": "last_loaded_at",
-          "type": "TIMESTAMP WITH TIME ZONE",
+          "name": "last_loaded_at_utc",
+          "type": "TIMESTAMP",
           "description": ""
         },
         {
@@ -112,7 +112,7 @@
         },
         {
           "name": "trips",
-          "type": "HUGEINT",
+          "type": "BIGINT",
           "description": "Trips for this fare product in the month."
         },
         {
@@ -281,22 +281,22 @@
         },
         {
           "name": "service_hours",
-          "type": "HUGEINT",
+          "type": "BIGINT",
           "description": "Total operating hours across bus, CTrain and community shuttle."
         },
         {
           "name": "bus_service_hours",
-          "type": "HUGEINT",
+          "type": "BIGINT",
           "description": ""
         },
         {
           "name": "ctrain_service_hours",
-          "type": "HUGEINT",
+          "type": "BIGINT",
           "description": ""
         },
         {
           "name": "shuttle_service_hours",
-          "type": "HUGEINT",
+          "type": "BIGINT",
           "description": ""
         },
         {

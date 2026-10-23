@@ -58,8 +58,11 @@ system_gap as (
     group by s.month, s.trips
 )
 
-select month, rider_group, fare_product, trips, false as is_unallocated from products
-union all
-select month, rider_group, fare_product, trips, true from group_gaps where trips <> 0
-union all
-select month, rider_group, fare_product, trips, true from system_gap where trips <> 0
+select month, rider_group, fare_product, cast(trips as bigint) as trips, is_unallocated
+from (
+    select month, rider_group, fare_product, trips, false as is_unallocated from products
+    union all
+    select month, rider_group, fare_product, trips, true from group_gaps where trips <> 0
+    union all
+    select month, rider_group, fare_product, trips, true from system_gap where trips <> 0
+)

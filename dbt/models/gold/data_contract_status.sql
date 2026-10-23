@@ -27,7 +27,7 @@ select
     c.freshness_target_days,
     d.latest_data_date,
     date_diff('day', d.latest_data_date, current_date) as days_since_latest_data,
-    l.last_loaded_at,
+    cast(timezone('UTC', l.last_loaded_at) as timestamp) as last_loaded_at_utc,
     l.last_load_mode,
     l.last_rows_loaded,
     case

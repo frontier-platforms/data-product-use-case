@@ -56,7 +56,8 @@ with DAG(
             profiles_yml_filepath=DBT_DIR / "profiles.yml",
         ),
         execution_config=ExecutionConfig(dbt_executable_path=DBT_BIN),
-        render_config=RenderConfig(group_nodes_by_folder=True),
+        # Tests spanning several models (the reconciliation test) wait for all of them, not just one parent.
+        render_config=RenderConfig(group_nodes_by_folder=True, should_detach_multiple_parents_tests=True),
     )
 
     # Writes target/manifest.json (read by publish) and target/static_index.html (the dbt docs site).
