@@ -1,0 +1,88 @@
+name: Daily pipeline
+
+on:
+  schedule:
+    - cron: "0 10 * * *"
+  workflow_dispatch:
+    inputs:
+      full_refresh:
+        description: Reload every source from scratch
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pipeline
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: requirements-*.txt
+
+      - name: Set up environments
+        run: ./scripts/setup.sh
+
+      # The warehouse persists between runs so the 311 feed can load incrementally.
+      - name: Restore warehouse
+        uses: actions/cache/restore@v4
+        with:
+          path: data/warehouse.duckdb
+          key: warehouse-${{ github.run_id }}
+          restore-keys: warehouse-
+
+      - name: Run Airflow DAG
+        env:
+          FULL_REFRESH: ${{ inputs.full_refresh && '1' || '0' }}
+          SOCRATA_APP_TOKEN: ${{ secrets.SOCRATA_APP_TOKEN }}
+        run: ./scripts/run_pipeline.sh
+
+      - name: Save warehouse
+        if: success()
+        uses: actions/cache/save@v4
+        with:
+          path: data/warehouse.duckdb
+          key: warehouse-${{ github.run_id }}
+
+      - name: Commit refreshed gold data
+        run: |
+          git config user.name "calgary-transit-pipeline"
+          git config user.email "actions@users.noreply.github.com"
+          git add web/public/data
+          if git diff --cached --quiet; then
+            echo "No data changes."
+          else
+            git commit -m "Refresh gold data $(date -u +%Y-%m-%d)"
+            git push
+          fi
+
+      - name: Package dbt docs
+        run: |
+          mkdir -p dbt-docs-site
+          cp dbt/target/static_index.html dbt-docs-site/index.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dbt-docs-site
+
+  publish-dbt-docs:
+    needs: run
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

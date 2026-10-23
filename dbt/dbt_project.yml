@@ -1,0 +1,30 @@
+name: calgary_transit
+version: "1.0.0"
+profile: calgary_transit
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+seeds:
+  calgary_transit:
+    +schema: reference
+    service_category_map:
+      +column_types:
+        is_retired: boolean
+        is_internal: boolean
+    data_contract:
+      +column_types:
+        freshness_target_days: integer
+
+models:
+  calgary_transit:
+    silver:
+      +schema: silver
+      +materialized: table
+    gold:
+      +schema: gold
+      +materialized: table
