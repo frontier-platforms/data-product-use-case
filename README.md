@@ -40,8 +40,9 @@ website     dashboard (DuckDB-WASM in the browser) and AI agent (writes SQL agai
 
 - **One department, four codes.** 311 files Calgary Transit under `TRAN`, `OS`, `OSC` and `Tranc` as the org changed. `reference.agency_map` collapses them.
 - **67 service names, 12 categories.** Retired (`Z CT -`) and renamed request types are mapped in `reference.service_category_map`. An unmapped name fails the build.
+- **A misleading trend.** Transit 311 requests per trip looked up 43% from 2019 to 2024, but Lost Property only moved into 311 in 2021. A governed `comparable_across_years` flag gives the like-for-like figure (+12%).
 - **Two measures called ridership.** `trips` counts a journey once; `boardings` counts every vehicle boarded. They are separate, documented columns.
-- **Totals that don't add up.** Published fare products never sum to published ridership. The gap is carried as explicit unallocated rows, so the breakdown always reconciles (tested), and months where the breakdown exceeds the total raise a warning.
+- **Totals that don't add up.** Published fare products never sum to published ridership. The gap is carried as explicit unallocated rows, so the breakdown always reconciles (tested), and 55 months where the breakdown exceeds the total raise a warning.
 - **Placeholder rows.** 258 of 480 ridership rows have a date and no values. They are excluded, and freshness is measured on real data only.
 - **Uneven freshness.** 311 is current to yesterday; ridership lags by more than a year. `data_contract_status` compares each domain to its target.
 
@@ -56,11 +57,13 @@ website     dashboard (DuckDB-WASM in the browser) and AI agent (writes SQL agai
 
 ## Website
 
-`web/` is a Next.js app with four sections: the presentation (`/presentation`, with speaker notes and a synced presenter window), the dashboard, the AI agent, and the how-it's-built page. The dashboard and agent load the published gold Parquet files into DuckDB-WASM in the browser.
+`web/` is a Next.js app with four sections: the presentation (`/presentation`, with speaker notes, a synced presenter window, and PDF/PowerPoint downloads), the approach page, the dashboard, and the AI agent. The dashboard and agent load the published gold Parquet files into DuckDB-WASM in the browser.
 
 ```bash
 cd web && npm install && npm run dev   # http://localhost:3000
 ```
+
+After editing slides, regenerate the downloads with the site running: `BASE_URL=http://localhost:3000 npm run export:deck` (use a production build, `npm run build && npm start`, so the dev badge isn't captured).
 
 The agent needs `ANTHROPIC_API_KEY` (in `web/.env.local` locally, or a Vercel environment variable). Without it, everything except the agent works. On Vercel, set the project's root directory to `web`.
 

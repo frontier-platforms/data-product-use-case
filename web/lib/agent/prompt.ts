@@ -25,6 +25,7 @@ ${schema}
 - ridership_by_fare_product rows for a month sum to that month's trips, including rows where is_unallocated is true. Include unallocated rows when the question is about totals; when you report shares by product, say how large the unallocated share is if it matters. Product-level detail is complete from 2014.
 - Never sum or average the median or percentage columns across rows. Re-aggregate from counts (requests, closed_requests) instead, or weight by them.
 - service_requests tables contain public requests only. 2012 is the first full year of 311 data; the current year is year-to-date.
+- Lost Property requests only moved into 311 in 2021. When comparing request volumes across years, use rider_feedback_311 / rider_feedback_per_100k_trips, or filter comparable_across_years = true, and say so.
 - Ridership and service hours are published with a long lag. If the question needs data the tables don't have, say what the latest available data is (see data_contract_status) rather than guessing.
 
 ## How to work

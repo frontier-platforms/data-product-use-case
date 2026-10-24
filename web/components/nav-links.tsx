@@ -3,18 +3,18 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const LINKS = [
+export const SECTIONS = [
   { href: "/presentation", label: "Presentation" },
+  { href: "/approach", label: "Approach" },
   { href: "/dashboard", label: "Dashboard" },
   { href: "/ask", label: "Ask the data" },
-  { href: "/how-it-works", label: "How it's built" },
 ];
 
 export function NavLinks() {
   const pathname = usePathname();
   return (
     <nav aria-label="Main" className="-mx-2 flex flex-wrap text-sm font-semibold">
-      {LINKS.map(({ href, label }) => {
+      {SECTIONS.map(({ href, label }) => {
         const active = pathname.startsWith(href);
         return (
           <Link

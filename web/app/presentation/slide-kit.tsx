@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 export type Slide = {
   id: string;
   section?: string;
+  answers?: string;
   minutes: number;
   dark?: boolean;
   body: ReactNode;
@@ -17,7 +18,14 @@ export function SlideFrame({ slide, index, total }: { slide: Slide; index: numbe
     >
       <div className="h-2 shrink-0 bg-cgy-red" />
       <div className="flex shrink-0 items-center justify-between px-16 pt-6 text-[15px] font-semibold">
-        <span className={dark ? "text-white/60" : "text-cgy-grey"}>{slide.section ?? ""}</span>
+        <span className={`flex items-center gap-3 ${dark ? "text-white/60" : "text-cgy-grey"}`}>
+          {slide.section ?? ""}
+          {slide.answers && (
+            <span className={`rounded-full px-2.5 py-0.5 text-[13px] font-bold ${dark ? "bg-white/15 text-white" : "bg-cgy-mist text-cgy-navy"}`}>
+              Answers {slide.answers}
+            </span>
+          )}
+        </span>
         <span className={dark ? "text-white/60" : "text-cgy-grey"}>PRIME · Data product case study</span>
       </div>
       <div className="flex min-h-0 flex-1 flex-col px-16 pb-10 pt-4">{slide.body}</div>
