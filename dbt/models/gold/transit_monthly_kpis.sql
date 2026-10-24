@@ -10,7 +10,10 @@ with hours as (
 ),
 
 requests as (
-    select request_month as month, count(*) as customer_requests_311
+    select
+        request_month as month,
+        count(*) as customer_requests_311,
+        count(*) filter (where comparable_across_years) as rider_feedback_311
     from {{ ref('fct_service_requests') }}
     where department = 'Calgary Transit' and not is_internal
     group by request_month
@@ -33,6 +36,8 @@ select
     round(r.trips / nullif(h.service_hours, 0), 1) as trips_per_service_hour,
     coalesce(q.customer_requests_311, 0) as customer_requests_311,
     round(q.customer_requests_311 * 100000.0 / nullif(r.trips, 0), 1) as requests_per_100k_trips,
+    coalesce(q.rider_feedback_311, 0) as rider_feedback_311,
+    round(q.rider_feedback_311 * 100000.0 / nullif(r.trips, 0), 1) as rider_feedback_per_100k_trips,
     r.trips is not null as has_ridership_data
 from {{ ref('dim_month') }} d
 left join {{ ref('fct_ridership_monthly') }} r on r.month = d.month

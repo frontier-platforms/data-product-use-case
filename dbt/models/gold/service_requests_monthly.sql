@@ -4,6 +4,7 @@ select
     department,
     program,
     service_category,
+    comparable_across_years,
     count(*) as requests,
     count(*) filter (where is_open) as open_requests,
     count(*) filter (where not is_open) as closed_requests,

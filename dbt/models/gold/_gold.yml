@@ -21,7 +21,11 @@ models:
       - name: customer_requests_311
         description: Public 311 requests owned by Calgary Transit (internal activity reports excluded).
       - name: requests_per_100k_trips
-        description: Customer 311 requests per 100,000 trips. Normalizes complaint volume by ridership.
+        description: Customer 311 requests per 100,000 trips, all categories. Not comparable across 2021 because Lost Property moved into 311 that year.
+      - name: rider_feedback_311
+        description: Customer 311 requests in categories that exist in every year (excludes Lost Property, which moved into 311 in 2021). Use this for trends across years.
+      - name: rider_feedback_per_100k_trips
+        description: rider_feedback_311 per 100,000 trips. The like-for-like measure of rider feedback relative to ridership.
       - name: has_ridership_data
         description: False for months where the City has not published ridership yet.
 
@@ -58,6 +62,9 @@ models:
         description: Calgary Transit or Transit Capital Projects (Green Line and other major project inquiries).
       - name: program
         description: Calgary Transit, Calgary Transit Access (accessible transit) or Transit Capital Projects.
+      - name: comparable_across_years
+        description: False for Lost Property, which only moved into 311 in 2021. Filter to true when comparing years.
+        data_tests: [not_null]
       - name: median_days_to_close
         description: Median days from request to close for requests in this cell.
       - name: pct_closed_within_7_days

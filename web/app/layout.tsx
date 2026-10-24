@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Open_Sans, JetBrains_Mono } from "next/font/google";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
 import "./globals.css";
 
 const openSans = Open_Sans({ variable: "--font-open-sans", subsets: ["latin"] });
@@ -19,11 +17,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${openSans.variable} ${mono.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col">
-        <SiteHeader />
-        <main className="flex-1">{children}</main>
-        <SiteFooter />
-      </body>
+      <body className="min-h-full">{children}</body>
     </html>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { SLIDES } from "./slides";
 import { SlideFrame } from "./slide-kit";
@@ -37,7 +38,7 @@ function Scaled({ index, className = "" }: { index: number; className?: string }
   const box = useRef<HTMLDivElement>(null);
   const scale = useFitScale(box);
   return (
-    <div ref={box} className={`relative flex items-center justify-center overflow-hidden ${className}`}>
+    <div ref={box} className={`flex items-center justify-center overflow-hidden ${className}`}>
       {scale > 0 && (
         <div style={{ width: W * scale, height: H * scale }} className="relative shadow-2xl">
           <div style={{ transform: `scale(${scale})`, transformOrigin: "top left" }} className="absolute left-0 top-0">
@@ -136,8 +137,31 @@ function ToolbarButton({ onClick, children, label }: { onClick: () => void; chil
   );
 }
 
+export const DOWNLOADS = [
+  { href: "/downloads/prime-case-study.pdf", label: "PDF" },
+  { href: "/downloads/prime-case-study.pptx", label: "PowerPoint" },
+];
+
+function DownloadMenu() {
+  return (
+    <details className="relative">
+      <summary className="cursor-pointer list-none rounded px-2.5 py-1 text-sm font-semibold text-white/70 hover:bg-white/10 hover:text-white">
+        Download ▾
+      </summary>
+      <div className="absolute bottom-full right-0 mb-2 w-44 overflow-hidden rounded-md bg-white text-sm shadow-xl">
+        {DOWNLOADS.map((d) => (
+          <a key={d.href} href={d.href} download className="block px-3 py-2 font-semibold text-cgy-navy hover:bg-cgy-mist">
+            {d.label}
+          </a>
+        ))}
+      </div>
+    </details>
+  );
+}
+
 export function Deck() {
   const { index, go } = useDeckState();
+  const router = useRouter();
   const [showNotes, setShowNotes] = useState(false);
   const presenter = useSyncExternalStore(
     noopSubscribe,
@@ -155,17 +179,22 @@ export function Deck() {
       else document.documentElement.requestFullscreen().catch(() => {});
       return true;
     }
+    // In fullscreen the browser uses Esc to leave fullscreen; outside it, Esc leaves the presentation.
+    if (e.key === "Escape" && !document.fullscreenElement) {
+      router.push("/");
+      return true;
+    }
     return false;
-  }, []);
+  }, [router]);
   useKeys(index, go, extra);
 
   if (presenter) return <PresenterView index={index} go={go} />;
 
   const elapsed = SLIDES.slice(0, index).reduce((m, s) => m + s.minutes, 0);
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-[#020f22]">
+    <div className="fixed inset-0 flex flex-col bg-[#020f22]">
       <div className="relative min-h-0 flex-1">
-        <Scaled index={index} className="absolute inset-0 p-3" />
+        <Scaled index={index} className="absolute inset-0 px-3 pb-2 pt-3" />
         <button type="button" aria-label="Previous slide" onClick={() => go(index - 1)} className="absolute inset-y-0 left-0 w-1/5 cursor-w-resize" />
         <button type="button" aria-label="Next slide" onClick={() => go(index + 1)} className="absolute inset-y-0 right-0 w-1/5 cursor-e-resize" />
       </div>
@@ -175,8 +204,12 @@ export function Deck() {
         </div>
       )}
       <div className="flex shrink-0 items-center gap-1 border-t border-white/10 px-3 py-1.5">
-        <Link href="/" className="rounded px-2.5 py-1 text-sm font-semibold text-white/70 hover:bg-white/10 hover:text-white">
-          ← Site
+        <Link
+          href="/"
+          title="Exit (Esc)"
+          className="rounded bg-white/10 px-3 py-1 text-sm font-semibold text-white hover:bg-cgy-red"
+        >
+          ✕ Exit
         </Link>
         <div className="mx-2 h-1 flex-1 overflow-hidden rounded bg-white/10">
           <div className="h-1 bg-cgy-red transition-all" style={{ width: `${((index + 1) / TOTAL) * 100}%` }} />
@@ -202,6 +235,7 @@ export function Deck() {
         >
           Fullscreen
         </ToolbarButton>
+        <DownloadMenu />
       </div>
     </div>
   );

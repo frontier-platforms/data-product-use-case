@@ -1,6 +1,6 @@
 export function SiteFooter() {
   return (
-    <footer className="mt-16 bg-cgy-navy text-sm text-white/80">
+    <footer className="bg-cgy-navy text-sm text-white/80">
       <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-8 sm:flex-row sm:items-start sm:justify-between sm:px-6">
         <p className="max-w-2xl">
           An independent project by Cody Chandler, built for a City of Calgary interview. Contains information licensed

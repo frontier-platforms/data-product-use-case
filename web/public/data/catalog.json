@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-23T22:25:49+00:00",
+  "generated_at": "2026-10-24T02:55:31+00:00",
   "last_loaded": {
-    "ridership_monthly": "2026-10-23T22:20:36Z",
-    "service_hours_monthly": "2026-10-23T22:20:36Z",
-    "service_requests_311": "2026-10-23T22:23:24Z"
+    "ridership_monthly": "2026-10-23T21:12:07Z",
+    "service_hours_monthly": "2026-10-23T21:12:08Z",
+    "service_requests_311": "2026-10-23T21:12:09Z"
   },
   "tables": [
     {
@@ -197,6 +197,11 @@
           "description": ""
         },
         {
+          "name": "comparable_across_years",
+          "type": "BOOLEAN",
+          "description": "False for Lost Property, which only moved into 311 in 2021. Filter to true when comparing years."
+        },
+        {
           "name": "requests",
           "type": "BIGINT",
           "description": ""
@@ -312,7 +317,17 @@
         {
           "name": "requests_per_100k_trips",
           "type": "DOUBLE",
-          "description": "Customer 311 requests per 100,000 trips. Normalizes complaint volume by ridership."
+          "description": "Customer 311 requests per 100,000 trips, all categories. Not comparable across 2021 because Lost Property moved into 311 that year."
+        },
+        {
+          "name": "rider_feedback_311",
+          "type": "BIGINT",
+          "description": "Customer 311 requests in categories that exist in every year (excludes Lost Property, which moved into 311 in 2021). Use this for trends across years."
+        },
+        {
+          "name": "rider_feedback_per_100k_trips",
+          "type": "DOUBLE",
+          "description": "rider_feedback_311 per 100,000 trips. The like-for-like measure of rider feedback relative to ridership."
         },
         {
           "name": "has_ridership_data",

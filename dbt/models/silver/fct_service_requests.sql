@@ -41,6 +41,7 @@ select
     c.program,
     c.is_retired as is_retired_service_name,
     c.is_internal,
+    c.comparable_across_years,
     t.agency_responsible,
     a.department,
     a.org_unit_code,
