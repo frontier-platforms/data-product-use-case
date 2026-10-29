@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-28T16:31:03+00:00",
+  "generated_at": "2026-10-29T16:42:42+00:00",
   "last_loaded": {
-    "ridership_monthly": "2026-10-28T16:28:26Z",
-    "service_hours_monthly": "2026-10-28T16:28:26Z",
-    "service_requests_311": "2026-10-28T16:28:27Z"
+    "ridership_monthly": "2026-10-29T16:40:08Z",
+    "service_hours_monthly": "2026-10-29T16:40:08Z",
+    "service_requests_311": "2026-10-29T16:40:11Z"
   },
   "tables": [
     {
@@ -126,7 +126,7 @@
       "name": "service_requests_by_community",
       "file": "service_requests_by_community.parquet",
       "description": "Grain: one row per year x community x service category. Calgary Transit public requests that have a community recorded (about 27% of requests have no community and are excluded). Use for questions about where requests come from. Latitude and longitude are the community centre point.",
-      "row_count": 21224,
+      "row_count": 21225,
       "columns": [
         {
           "name": "year",
