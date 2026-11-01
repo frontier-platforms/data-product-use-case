@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-31T15:39:19+00:00",
+  "generated_at": "2026-11-01T16:38:56+00:00",
   "last_loaded": {
-    "ridership_monthly": "2026-10-31T15:37:22Z",
-    "service_hours_monthly": "2026-10-31T15:37:23Z",
-    "service_requests_311": "2026-10-31T15:37:25Z"
+    "ridership_monthly": "2026-11-01T16:36:29Z",
+    "service_hours_monthly": "2026-11-01T16:36:29Z",
+    "service_requests_311": "2026-11-01T16:36:31Z"
   },
   "tables": [
     {
@@ -126,7 +126,7 @@
       "name": "service_requests_by_community",
       "file": "service_requests_by_community.parquet",
       "description": "Grain: one row per year x community x service category. Calgary Transit public requests that have a community recorded (about 27% of requests have no community and are excluded). Use for questions about where requests come from. Latitude and longitude are the community centre point.",
-      "row_count": 21228,
+      "row_count": 21229,
       "columns": [
         {
           "name": "year",
@@ -237,7 +237,7 @@
       "name": "transit_monthly_kpis",
       "file": "transit_monthly_kpis.parquet",
       "description": "Grain: one row per month, from 2012-01. System-level Calgary Transit KPIs combining ridership, service hours and customer 311 requests. Use for any question about overall trends, totals by year, or efficiency. Ridership and service hours are null for months the City has not yet published.",
-      "row_count": 178,
+      "row_count": 179,
       "columns": [
         {
           "name": "month",
