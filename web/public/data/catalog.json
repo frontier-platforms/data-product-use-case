@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-18T18:42:48+00:00",
+  "generated_at": "2026-11-19T18:56:57+00:00",
   "last_loaded": {
-    "ridership_monthly": "2026-11-18T18:41:09Z",
-    "service_hours_monthly": "2026-11-18T18:41:09Z",
-    "service_requests_311": "2026-11-18T18:41:11Z"
+    "ridership_monthly": "2026-11-19T18:54:09Z",
+    "service_hours_monthly": "2026-11-19T18:54:10Z",
+    "service_requests_311": "2026-11-19T18:54:11Z"
   },
   "tables": [
     {
@@ -169,7 +169,7 @@
       "name": "service_requests_monthly",
       "file": "service_requests_monthly.parquet",
       "description": "Grain: one row per month x department x program x service category, from 2010. Public 311 requests only. Use for questions about request volumes, categories of complaints, or how fast requests are closed. Do not sum median or percentage columns across rows; re-aggregate requests instead.",
-      "row_count": 2183,
+      "row_count": 2184,
       "columns": [
         {
           "name": "month",
